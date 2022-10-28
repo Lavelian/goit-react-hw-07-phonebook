@@ -9,7 +9,7 @@ import { changeFilter } from 'redux/Filter/filterSlice';
 import {
   useGetContactsQuery,
   useAddContactsMutation,
-} from 'contactsApi/contactsApi';
+} from 'redux/contactsApi/contactsApi';
 export default function App() {
   const { data: contacts } = useGetContactsQuery();
   const [addContact] = useAddContactsMutation();

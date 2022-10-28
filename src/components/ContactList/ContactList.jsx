@@ -1,5 +1,5 @@
 import { LiItem, ContactsList } from './ContactList.styled';
-import { useRemoveContactsMutation } from 'contactsApi/contactsApi';
+import { useRemoveContactsMutation } from 'redux/contactsApi/contactsApi';
 
 export default function ContactList({ filteredContacts }) {
   const [removeContact, result] = useRemoveContactsMutation();
