@@ -9,16 +9,20 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
-import rootReducer from './rootReducer';
+import storage from 'redux-persist/lib/storage'; // defaults to localStorage for webb
+import contactsReducer from './Contacts/contactsSlice';
+import filterReducer from './Filter/filterSlice';
 const persistConfig = {
   key: 'contacts',
   storage,
-  blacklist: ['filter'],
 };
 
 export const store = configureStore({
-  reducer: persistReducer(persistConfig, rootReducer),
+  reducer: {
+    contacts: persistReducer(persistConfig, contactsReducer),
+    filter: filterReducer,
+  },
+
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {

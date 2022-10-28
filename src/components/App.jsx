@@ -13,7 +13,7 @@ import { removeContact, addContact } from 'redux/Contacts/contactsSlice';
 
 export default function App() {
   const filter = useSelector(({ filter }) => filter);
-  const contacts = useSelector(({ contacts }) => contacts);
+  const contacts = useSelector(({ contacts }) => contacts.value);
   const dispatch = useDispatch();
 
   const formSubmitHandler = (name, number) => {
@@ -49,6 +49,7 @@ export default function App() {
   };
   const notify = () => toast('There is already a contact');
   const filteredContacts = getFilteredContacts();
+  console.log(filteredContacts);
   return (
     <Container>
       <h1>PhoneBook</h1>
