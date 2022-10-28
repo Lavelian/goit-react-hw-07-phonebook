@@ -5,35 +5,40 @@ import Contact from 'components/Contact';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
-// import { changeFilter } from 'redux/Filter/filterReducer';
-// import { removeContact, addContact } from 'redux/Contacts/contactsReducer';
-
 import { changeFilter } from 'redux/Filter/filterSlice';
-import { removeContact, addContact } from 'redux/Contacts/contactsSlice';
-
+import {
+  useGetContactsQuery,
+  useAddContactsMutation,
+} from 'contactsApi/contactsApi';
 export default function App() {
+  const { data: contacts } = useGetContactsQuery();
+  const [addContact] = useAddContactsMutation();
+
   const filter = useSelector(({ filter }) => filter);
-  const contacts = useSelector(({ contacts }) => contacts.value);
+  // const contacts = useSelector(({ contacts }) => contacts.value);
   const dispatch = useDispatch();
 
-  const formSubmitHandler = (name, number) => {
-    if (isDuplicate(name, number)) {
-      return notify();
+  const formSubmitHandler = async (name, number) => {
+    try {
+      if (isDuplicate(name, number)) {
+        return notify();
+      }
+      await addContact({ name, number, id: nanoid() });
+    } catch (error) {
+      console.log(error);
     }
-    dispatch(addContact({ name, number, id: nanoid() }));
   };
-  const removeContactById = id => {
-    dispatch(removeContact(id));
-  };
+
   const getFilteredContacts = () => {
     if (!filter) {
       return contacts;
     }
+    console.log(contacts[0].name.toLowerCase());
 
     return contacts.filter(
-      ({ name, number }) =>
-        name.toLocaleLowerCase().includes(filter.toLocaleLowerCase()) ||
-        number.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
+      ({ name, phone }) =>
+        name.toLowerCase().includes(filter.toLowerCase()) ||
+        phone.toLowerCase().includes(filter.toLowerCase())
     );
   };
 
@@ -49,7 +54,7 @@ export default function App() {
   };
   const notify = () => toast('There is already a contact');
   const filteredContacts = getFilteredContacts();
-  console.log(filteredContacts);
+
   return (
     <Container>
       <h1>PhoneBook</h1>
@@ -58,7 +63,6 @@ export default function App() {
         filter={filter}
         filteredContacts={filteredContacts}
         handleChange={handleChange}
-        removeContact={removeContactById}
       />
       <ToastContainer />
     </Container>
