@@ -22,12 +22,13 @@ export default function ContactList() {
   };
 
   const filteredContacts = getFilteredContacts();
+  console.log(filteredContacts);
 
   return (
     <ContactsList>
-      {filteredContacts.map(({ id, name, number }) => (
+      {filteredContacts.map(({ id, name, phone }) => (
         <LiItem key={id}>
-          <span>{name + ':'}</span> <span>{number}</span>
+          <span>{name + ' :'}</span> <span>{phone}</span>
           <button
             type="button"
             onClick={() => removeContact(id)}

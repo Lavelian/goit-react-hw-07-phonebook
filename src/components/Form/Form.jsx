@@ -9,28 +9,28 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const initialValues = {
   name: '',
-  number: '',
+  phone: '',
 };
 
 export default function Form() {
   const { data: contacts } = useGetContactsQuery();
   const [addContact] = useAddContactsMutation();
 
-  const onSubmit = async ({ name, number }, { resetForm }) => {
+  const onSubmit = async ({ name, phone }, { resetForm }) => {
     try {
-      if (isDuplicate(name, number)) {
+      if (isDuplicate(name, phone)) {
         resetForm();
         return toast('There is already a contact');
       }
-      await addContact({ name, number, id: nanoid() });
+      await addContact({ name, phone, id: nanoid() });
     } catch (error) {
       console.log(error);
     }
     resetForm();
   };
-  const isDuplicate = (name, number) => {
+  const isDuplicate = (name, phone) => {
     return contacts.find(
-      contact => contact.name === name && contact.number === number
+      contact => contact.name === name && contact.phone === phone
     );
   };
 
@@ -51,7 +51,7 @@ export default function Form() {
           Number
           <Field
             type="tel"
-            name="number"
+            name="phone"
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
