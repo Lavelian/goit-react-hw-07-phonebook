@@ -4,8 +4,8 @@ import Form from 'components/Form';
 import Contact from 'components/Contact';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { changeFilter } from 'redux/Filter/filterSlice';
+import { useSelector } from 'react-redux';
+// import { changeFilter } from 'redux/Filter/filterSlice';
 import {
   useGetContactsQuery,
   useAddContactsMutation,
@@ -15,8 +15,6 @@ export default function App() {
   const [addContact] = useAddContactsMutation();
 
   const filter = useSelector(({ filter }) => filter);
-  // const contacts = useSelector(({ contacts }) => contacts.value);
-  const dispatch = useDispatch();
 
   const formSubmitHandler = async (name, number) => {
     try {
@@ -33,18 +31,11 @@ export default function App() {
     if (!filter) {
       return contacts;
     }
-    console.log(contacts[0].name.toLowerCase());
-
     return contacts.filter(
       ({ name, phone }) =>
         name.toLowerCase().includes(filter.toLowerCase()) ||
         phone.toLowerCase().includes(filter.toLowerCase())
     );
-  };
-
-  const handleChange = e => {
-    const { value } = e.target;
-    dispatch(changeFilter(value));
   };
 
   const isDuplicate = (name, number) => {
@@ -59,11 +50,7 @@ export default function App() {
     <Container>
       <h1>PhoneBook</h1>
       <Form OnSubmitForm={formSubmitHandler} />
-      <Contact
-        filter={filter}
-        filteredContacts={filteredContacts}
-        handleChange={handleChange}
-      />
+      <Contact filteredContacts={filteredContacts} />
       <ToastContainer />
     </Container>
   );
