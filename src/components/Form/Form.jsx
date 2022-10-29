@@ -1,18 +1,41 @@
 import { Formik, Field } from 'formik';
 import { FormBox, Button } from './Form.styled';
-
+import {
+  useGetContactsQuery,
+  useAddContactsMutation,
+} from 'redux/contactsApi/contactsApi';
+import { nanoid } from 'nanoid';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const initialValues = {
   name: '',
   number: '',
 };
 
-export default function Form({ OnSubmitForm }) {
-  const handleSabmit = ({ name, number }, { resetForm }) => {
-    OnSubmitForm(name, number);
+export default function Form() {
+  const { data: contacts } = useGetContactsQuery();
+  const [addContact] = useAddContactsMutation();
+
+  const onSubmit = async ({ name, number }, { resetForm }) => {
+    try {
+      if (isDuplicate(name, number)) {
+        resetForm();
+        return toast('There is already a contact');
+      }
+      await addContact({ name, number, id: nanoid() });
+    } catch (error) {
+      console.log(error);
+    }
     resetForm();
   };
+  const isDuplicate = (name, number) => {
+    return contacts.find(
+      contact => contact.name === name && contact.number === number
+    );
+  };
+
   return (
-    <Formik onSubmit={handleSabmit} initialValues={initialValues}>
+    <Formik onSubmit={onSubmit} initialValues={initialValues}>
       <FormBox>
         <label>
           Name
