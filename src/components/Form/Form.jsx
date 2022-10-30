@@ -20,7 +20,7 @@ export default function Form() {
     try {
       if (isDuplicate(name, phone)) {
         resetForm();
-        return toast('There is already a contact');
+        return toast(`There is already a contact`);
       }
       await addContact({ name, phone, id: nanoid() });
     } catch (error) {
