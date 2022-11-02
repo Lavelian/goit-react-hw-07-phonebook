@@ -1,13 +1,12 @@
-import { LiItem, ContactsList } from './ContactList.styled';
-import {
-  useGetContactsQuery,
-  useRemoveContactsMutation,
-} from 'redux/contactsApi/contactsApi';
+import { List } from './ContactList.styled';
+import ContactsListItem from './ContactsListItem/ContactsListItem';
+// import Loader from 'components/Loader';
+import { useGetContactsQuery } from 'redux/contactsApi/contactsApi';
 import { useSelector } from 'react-redux';
 
 export default function ContactList() {
-  const [removeContact, result] = useRemoveContactsMutation();
   const { data: contacts = [] } = useGetContactsQuery();
+  // console.log(result);
 
   const filter = useSelector(({ filter }) => filter);
   const getFilteredContacts = () => {
@@ -24,19 +23,10 @@ export default function ContactList() {
   const filteredContacts = getFilteredContacts();
 
   return (
-    <ContactsList>
+    <List>
       {filteredContacts.map(({ id, name, phone }) => (
-        <LiItem key={id}>
-          <span>{name + ' :'}</span> <span>{phone}</span>
-          <button
-            type="button"
-            onClick={() => removeContact(id)}
-            disabled={result.isLoading}
-          >
-            Delete
-          </button>
-        </LiItem>
+        <ContactsListItem key={id} id={id} name={name} phone={phone} />
       ))}
-    </ContactsList>
+    </List>
   );
 }

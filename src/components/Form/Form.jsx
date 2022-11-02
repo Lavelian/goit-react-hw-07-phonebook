@@ -1,5 +1,7 @@
 import { Formik, Field } from 'formik';
 import { FormBox, Button } from './Form.styled';
+import { Oval } from 'react-loader-spinner';
+import Box from 'components/Box';
 import {
   useGetContactsQuery,
   useAddContactsMutation,
@@ -7,6 +9,7 @@ import {
 import { nanoid } from 'nanoid';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 const initialValues = {
   name: '',
   phone: '',
@@ -14,7 +17,8 @@ const initialValues = {
 
 export default function Form() {
   const { data: contacts } = useGetContactsQuery();
-  const [addContact] = useAddContactsMutation();
+  const [addContact, { isLoading }] = useAddContactsMutation();
+  console.log(isLoading);
 
   const onSubmit = async ({ name, phone }, { resetForm }) => {
     try {
@@ -57,7 +61,23 @@ export default function Form() {
             required
           />
         </label>
-        <Button type="submit">Add to Contact</Button>
+        <Box display="flex" alignItems="center">
+          <Button type="submit">Add to Contact</Button>
+          {isLoading && (
+            <Oval
+              height={25}
+              width={25}
+              color="#031903"
+              wrapperStyle={{}}
+              wrapperClass=""
+              visible={true}
+              ariaLabel="oval-loading"
+              secondaryColor="#4fa94d"
+              strokeWidth={2}
+              strokeWidthSecondary={2}
+            />
+          )}
+        </Box>
       </FormBox>
     </Formik>
   );
