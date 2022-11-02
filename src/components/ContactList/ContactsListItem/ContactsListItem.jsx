@@ -17,8 +17,8 @@ export default function ContactsListItem({ name, phone, id }) {
       </Button>
       {isLoading && (
         <Oval
-          height={20}
-          width={20}
+          height={17}
+          width={17}
           color="#031903"
           wrapperStyle={{}}
           wrapperClass=""
