@@ -1,6 +1,6 @@
 import { Formik, Field } from 'formik';
 import { FormBox, Button } from './Form.styled';
-import { Oval } from 'react-loader-spinner';
+import Loader from 'components/Loader';
 import Box from 'components/Box';
 import {
   useGetContactsQuery,
@@ -63,20 +63,7 @@ export default function Form() {
         </label>
         <Box display="flex" alignItems="center">
           <Button type="submit">Add to Contact</Button>
-          {isLoading && (
-            <Oval
-              height={25}
-              width={25}
-              color="#031903"
-              wrapperStyle={{}}
-              wrapperClass=""
-              visible={true}
-              ariaLabel="oval-loading"
-              secondaryColor="#4fa94d"
-              strokeWidth={2}
-              strokeWidthSecondary={2}
-            />
-          )}
+          {isLoading && <Loader height={20} width={20} />}
         </Box>
       </FormBox>
     </Formik>

@@ -1,6 +1,6 @@
 // import Loader from 'components/Loader';
 import { ListItem, Text, Button } from './ContactsListItem.styled';
-import { Oval } from 'react-loader-spinner';
+import Loader from 'components/Loader';
 import { useRemoveContactsMutation } from 'redux/contactsApi/contactsApi';
 
 export default function ContactsListItem({ name, phone, id }) {
@@ -8,6 +8,7 @@ export default function ContactsListItem({ name, phone, id }) {
   return (
     <ListItem>
       <Text>{name + ' : ' + phone} </Text>
+      {isLoading && <Loader height={17} width={17} />}
       <Button
         type="button"
         onClick={() => removeContact(id)}
@@ -15,20 +16,6 @@ export default function ContactsListItem({ name, phone, id }) {
       >
         Delete
       </Button>
-      {isLoading && (
-        <Oval
-          height={17}
-          width={17}
-          color="#031903"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-          ariaLabel="oval-loading"
-          secondaryColor="#4fa94d"
-          strokeWidth={2}
-          strokeWidthSecondary={2}
-        />
-      )}
     </ListItem>
   );
 }

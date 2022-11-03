@@ -1,11 +1,11 @@
 import { Oval } from 'react-loader-spinner';
 
-export default function Loader() {
+export default function Loader({ height, width }) {
   return (
     <>
       <Oval
-        height={20}
-        width={20}
+        height={height}
+        width={width}
         color="#031903"
         wrapperStyle={{}}
         wrapperClass=""

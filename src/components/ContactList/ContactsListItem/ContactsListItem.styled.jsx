@@ -2,10 +2,11 @@ import styled from 'styled-components';
 
 export const ListItem = styled.li`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  width: 400px;
 `;
 export const Text = styled.p`
-  margin-right: 10px;
+  margin-right: auto;
 `;
 export const Button = styled.button`
   margin-right: 3px;
